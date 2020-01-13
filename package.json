@@ -15,7 +15,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier \"src/**/*.{js,html}\" --write"
+    "format": "prettier \"src/**/*.{js,html}\" --write",
+    "eslint": "eslint src",
+    "eslint:fix": "eslint --fix src",
+    "lint": "prettier && eslint",
+    "lint:fix": "npm prettier:fix && npm eslint:fix",
+    "prettier": "prettier \"src/**/*.{js,html}\"",
+    "prettier:fix": "prettier \"src/**/*.{js,html}\" --write"
   },
   "eslintConfig": {
     "extends": "react-app"
