@@ -21,6 +21,7 @@ const list = [
 ];
 
 class App extends Component {
+  //map  creates new array objectwith value from callback
   render() {
     return (
       <div className="App">
