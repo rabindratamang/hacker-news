@@ -21,8 +21,17 @@ const list = [
 ];
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    //binding list to App class local state
+    this.state = {
+      list: list
+    };
+  }
   //map  creates new array objectwith value from callback
   render() {
+    let { list } = this.state;
     return (
       <div className="App">
         {list.map(function(item) {
