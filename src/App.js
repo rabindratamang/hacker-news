@@ -33,9 +33,11 @@ class App extends Component {
   }
 
   onDismiss(id) {
-    const isNotId = item => item.objectID !== id;
-    const updatedList = this.state.list.filter(isNotId);
-    this.setState({ list: updatedList });
+    if (window.confirm("Are you sure?")) {
+      const isNotId = item => item.objectID !== id;
+      const updatedList = this.state.list.filter(isNotId);
+      this.setState({ list: updatedList });
+    }
   }
 
   //map  creates new array objectwith value from callback
