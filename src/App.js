@@ -26,7 +26,7 @@ class App extends Component {
 
     //binding list to App class local state
     this.state = {
-      list: list
+      list //equivalent of list: list because they share same name
     };
   }
   //map  creates new array objectwith value from callback
