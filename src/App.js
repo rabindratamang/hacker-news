@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
+import Search from "./Search";
+import Table from "./Table";
 
 const list = [
   {
@@ -19,13 +21,6 @@ const list = [
     objectID: 1
   }
 ];
-
-//higher order function
-function isSearched(searchTerm) {
-  return function(item) {
-    return item.title.toLowerCase().includes(searchTerm.toLowerCase());
-  };
-}
 
 class App extends Component {
   constructor(props) {
@@ -58,35 +53,9 @@ class App extends Component {
     let { list, searchTerm } = this.state;
     return (
       <div className="App">
-        <form>
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={this.onSearchChange}
-            value={searchTerm}
-          />
-        </form>
+        <Search value={searchTerm} onChange={this.onSearchChange} />
 
-        {list.filter(isSearched(searchTerm)).map(item => {
-          //as function with parenthesis invokes immediately so a wrapper is added
-          const onHandleDismiss = () => this.onDismiss(item.objectID);
-
-          return (
-            <div key={item.objectID}>
-              <span>
-                <a href={item.url}>{item.title}</a>
-              </span>
-              <span>{item.author}</span>
-              <span>{item.num_comments}</span>
-              <span>{item.points}</span>
-              <span>
-                <button onClick={onHandleDismiss} type="button">
-                  X
-                </button>
-              </span>
-            </div>
-          );
-        })}
+        <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
       </div>
     );
   }
