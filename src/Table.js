@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "./Button";
 
 //higher order function
 function isSearched(searchTerm) {
@@ -21,9 +22,12 @@ class Table extends Component {
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
             <span>
-              <button onClick={() => onDismiss(item.objectID)} type="button">
-                X
-              </button>
+              <Button
+                onClick={() => onDismiss(item.objectID)}
+                className="btn btn-sucess"
+              >
+                x
+              </Button>
             </span>
           </div>
         ))}
