@@ -3,8 +3,9 @@ import React from "react";
 const Search = ({ value, onChange, children }) => {
   return (
     <form>
-      {children}
+      <label htmlFor="search-btn">{children}</label>
       <input
+        id="search-btn"
         type="text"
         placeholder="Search"
         onChange={onChange}

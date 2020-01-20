@@ -53,3 +53,8 @@ table-row {
   border-radius: 0;
   border-bottom: 1px solid #38bb6c;
 }
+
+label {
+  display: inline-block;
+  margin: 1rem;
+}
