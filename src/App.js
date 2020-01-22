@@ -27,6 +27,8 @@ const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
 
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +36,17 @@ class App extends Component {
     //binding list to App class local state
     this.state = {
       list, //equivalent of list: list because they share same name (es6)
-      searchTerm: ""
+      searchTerm: DEFAULT_QUERY
     };
 
+    this.setSearchTopStories = this.setSearchTopStories.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
   }
 
+  setSearchTopStories(result) {
+    this.setState({ result: result });
+  }
   onDismiss(id) {
     if (window.confirm("Are you sure?")) {
       const isNotId = item => item.objectID !== id;
@@ -53,16 +59,26 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value });
   }
 
+  componentDidMount() {}
+
   //map  creates new array object with value from callback
   render() {
-    let { list, searchTerm } = this.state;
+    let { list, searchTerm, result } = this.state;
+
+    if (!result) {
+      return "Loading.....";
+    }
     return (
       <div className="page">
         <div className="interactions">
           <Search value={searchTerm} onChange={this.onSearchChange}>
             Search
           </Search>
-          <Table list={list} pattern={searchTerm} onDismiss={this.onDismiss} />
+          <Table
+            list={result.hits}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
+          />
         </div>
       </div>
     );
