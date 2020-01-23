@@ -3,31 +3,10 @@ import "./App.css";
 import Search from "./Search";
 import Table from "./Table";
 
-const list = [
-  {
-    title: "React",
-    url: "https://facebook.github.io/react/",
-    author: "Jordan Walke",
-    num_comments: 3,
-    points: 4,
-    objectID: 0
-  },
-  {
-    title: "Redux",
-    url: "https://github.com/reactjs/redux",
-    author: "Dan Abramov, Andrew Clark",
-    num_comments: 2,
-    points: 5,
-    objectID: 1
-  }
-];
-
 const DEFAULT_QUERY = "redux";
 const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
-
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +14,7 @@ class App extends Component {
 
     //binding list to App class local state
     this.state = {
-      list, //equivalent of list: list because they share same name (es6)
+      result: null,
       searchTerm: DEFAULT_QUERY
     };
 
@@ -47,11 +26,17 @@ class App extends Component {
   setSearchTopStories(result) {
     this.setState({ result: result });
   }
+
   onDismiss(id) {
     if (window.confirm("Are you sure?")) {
-      const isNotId = item => item.objectID !== id;
-      const updatedList = this.state.list.filter(isNotId);
-      this.setState({ list: updatedList });
+      const isNotId = item => {
+        console.log(item);
+        return item.objectID !== id;
+      };
+      const updatedHits = this.state.result.hits.filter(isNotId);
+      this.setState({
+        result: Object.assign({}, this.state.result, { hits: updatedHits })
+      });
     }
   }
 
@@ -59,12 +44,17 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value });
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    const { searchTerm } = this.state;
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+      .catch(error => error);
+  }
 
   //map  creates new array object with value from callback
   render() {
-    let { list, searchTerm, result } = this.state;
-
+    let { searchTerm, result } = this.state;
     if (!result) {
       return "Loading.....";
     }
