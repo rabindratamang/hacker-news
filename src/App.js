@@ -35,7 +35,7 @@ class App extends Component {
       };
       const updatedHits = this.state.result.hits.filter(isNotId);
       this.setState({
-        result: Object.assign({}, this.state.result, { hits: updatedHits })
+        result: { ...this.state.result, hits: updatedHits }
       });
     }
   }
