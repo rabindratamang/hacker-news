@@ -30,7 +30,6 @@ class App extends Component {
   onDismiss(id) {
     if (window.confirm("Are you sure?")) {
       const isNotId = item => {
-        console.log(item);
         return item.objectID !== id;
       };
       const updatedHits = this.state.result.hits.filter(isNotId);
@@ -55,20 +54,19 @@ class App extends Component {
   //map  creates new array object with value from callback
   render() {
     let { searchTerm, result } = this.state;
-    if (!result) {
-      return "Loading.....";
-    }
     return (
       <div className="page">
         <div className="interactions">
           <Search value={searchTerm} onChange={this.onSearchChange}>
             Search
           </Search>
-          <Table
-            list={result.hits}
-            pattern={searchTerm}
-            onDismiss={this.onDismiss}
-          />
+          {result ? (
+            <Table
+              list={result.hits}
+              pattern={searchTerm}
+              onDismiss={this.onDismiss}
+            />
+          ) : null}
         </div>
       </div>
     );
